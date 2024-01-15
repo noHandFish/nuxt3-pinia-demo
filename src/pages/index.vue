@@ -48,7 +48,7 @@
           <LockOnIcon />
         </template>
       </t-input>
-      <t-input type="password" placeholder="确认密码" v-model="ensurePassWord" :status="isSame ? 'default' : 'error'" :tips="isSame ? '' : '密码必须包含数字，字母，特殊字符'">
+      <t-input type="password" placeholder="确认密码" v-model="ensurePassWord" :status="isSame ? 'default' : 'error'" :tips="isSame ? '' : '两次密码必须相同'">
         <template #prefix-icon>
           <LockOnIcon />
         </template>
@@ -116,6 +116,7 @@ function toRegister() {
 const ensurePassWord = ref<string>('')
 const isSame  = computed(() => ensurePassWord.value === userData.password)
 const trueCheckCode = ref<string>('')
+const checkCode = ref<string>('')
 
 function getCheckCode() {
   trueCheckCode.value = Math.floor(Math.random() * 1000000).toString()
