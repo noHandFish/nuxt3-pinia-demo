@@ -43,7 +43,7 @@
             <User1Icon />
           </template>
         </t-input>
-        <t-input type="password" placeholder="修改密码" v-model="editUserData.password" :status="isValidPassWord ? 'default' : 'error'" :tips="isValidPassWord ? '' : '密码必须包含数字，字母，特殊字符'" @blur="checkPassWord">
+        <t-input type="password" placeholder="修改密码" v-model="editUserData.password" :status="isValidPassWord ? 'default' : 'error'" :tips="isValidPassWord ? '' : '密码必须为8位以上包含数字，大小写字母，特殊字符'" @blur="checkPassWord">
           <template #prefix-icon>
             <LockOnIcon />
           </template>
@@ -159,7 +159,7 @@ function checkPhoneNumber() {
   isPhoneNumber.value = /^1[3456789]\d{9}$/.test(editUserData.phoneNumber)
 }
 function checkPassWord() {
-  isValidPassWord.value = /^1[3456789]\d{9}$/.test(editUserData.password)
+  isValidPassWord.value = /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,}$/.test(editUserData.password)
 }
 // 去别的用户的详情页
 function toItsPage(token : string) {

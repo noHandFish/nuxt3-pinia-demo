@@ -43,7 +43,7 @@
           <t-button class="w-20 h-full flex-center" @click="getCheckCode">获取验证码</t-button>
         </template>
       </t-input>
-      <t-input type="password" placeholder="请输入密码" v-model="userData.password" :status="isValidPassWord ? 'default' : 'error'" :tips="isValidPassWord ? '' : '密码必须包含数字，字母，特殊字符'" @blur="checkPassWord">
+      <t-input type="password" placeholder="请输入密码" v-model="userData.password" :status="isValidPassWord ? 'default' : 'error'" :tips="isValidPassWord ? '' : '密码必须为8位以上包含数字，大小写字母，特殊字符'" @blur="checkPassWord">
         <template #prefix-icon>
           <LockOnIcon />
         </template>
@@ -83,7 +83,7 @@ function checkPhoneNumber() {
 }
 
 function checkPassWord() {
-  isValidPassWord.value = /^1[3456789]\d{9}$/.test(userData.password)
+  isValidPassWord.value = /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,}$/.test(userData.password)
 }
 
 const router = useRouter()
