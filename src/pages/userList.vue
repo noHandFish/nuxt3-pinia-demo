@@ -1,5 +1,6 @@
 <template>
   <div class="h-40 flex items-center justify-between bg-white m-4">
+    <!--  头部个人信息卡片  -->
     <div class="w-65 h-40 flex items-center">
       <t-image :src="pageData.avatarUrl" class="w-32 h-32 m-4" fit="cover"></t-image>
       <div class="h-32 flex flex-col justify-between">
@@ -11,6 +12,7 @@
       <t-button @click="showEdit">修改信息</t-button>
       <t-button @click="logOut">登出</t-button>
     </div>
+      <!--  修改个人信息部分  -->
     <t-dialog v-model:visible="editVisible" :on-cancel="cancel" :on-confirm="editMessage">
       <div class="flex flex-col gap-6">
         <div class="flex items-center">
@@ -31,6 +33,7 @@
       </div>
     </t-dialog>
   </div>
+<!-- 管理用户列表模块 -->
 <div class="font-bold flex-center">用户列表</div>
 <div class="m-2">
   <div v-for="(item,index) in userList" :key="index" class="flex justify-between p-2 hover:bg-gray-200" @click="showDetail(item.token)">
@@ -57,18 +60,21 @@ import useUserStore from "../stores/useUserStore";
 const userList = reactive(JSON.parse(localStorage.getItem('userList') || '[]'))
 const userData = useUserStore()
 const visible = ref<boolean>(false)
+const token = ref<string>('')
+const router = useRouter()
+
+/* 个人信息数据初始化 */
+const pageData = reactive({})
+const maskPhoneNumber = ref<string>('')
 const editVisible = ref<boolean>(false)
 const editUserData = reactive({})
 const nickName = ref<string>('')
 const password = ref<string>('')
-const token = ref<string>('')
-const router = useRouter()
 
 onMounted(() => {
   initUserData()
 })
-const pageData = reactive({})
-const maskPhoneNumber = ref<string>('')
+
 function initUserData() {
   userList.forEach((item : object) => {
     if(userData.token === item.token) {
@@ -84,25 +90,18 @@ function initUserData() {
     }
   })
 }
-const isPhoneNumber = ref<boolean>(true)
-const isValidPassWord = ref<boolean>(true)
 
-function checkPhoneNumber() {
-  isPhoneNumber.value = /^1[3456789]\d{9}$/.test(userData.phoneNumber)
-}
-function checkPassWord() {
-  isValidPassWord.value = /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,}$/.test(userData.password)
-}
-function logOut() {
-  userData.logout()
-  router.replace('/')
-}
+/* 修改个人信息 */
 function showEdit() {
   editVisible.value = true
 }
 function cancel() {
   editVisible.value = false
 }
+function handleFileSelected(base64 : string) {
+  editUserData.avatarUrl = base64
+}
+
 function editMessage() {
   editVisible.value = false
   userList.forEach((item : object) => {
@@ -121,6 +120,25 @@ function editMessage() {
   })
   localStorage.setItem('userList', JSON.stringify(userList))
 }
+// 功能函数
+const isPhoneNumber = ref<boolean>(true)
+const isValidPassWord = ref<boolean>(true)
+
+function checkPhoneNumber() {
+  isPhoneNumber.value = /^1[3456789]\d{9}$/.test(userData.phoneNumber)
+}
+function checkPassWord() {
+  isValidPassWord.value = /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,}$/.test(userData.password)
+}
+
+// 退出登录
+function logOut() {
+  userData.logout()
+  router.replace('/')
+}
+
+/* 修改其他用户信息 */
+
 function showEditUser(editItem : object) {
   visible.value = true
   userList.forEach((item : object) => {
@@ -132,9 +150,7 @@ function showEditUser(editItem : object) {
   })
   localStorage.setItem('userList', JSON.stringify(userList))
 }
-function handleFileSelected(base64 : string) {
-  editUserData.avatarUrl = base64
-}
+
 function saveEditUser() {
   userList.map((item : object) => {
     if (item.token === userData.token) {
@@ -148,6 +164,8 @@ function saveEditUser() {
 function cancelEditUser() {
   visible.value = false
 }
+
+/* 查看其他用户信息 */
 function showDetail(token : string) {
   router.push({ path: '/normalUser', query: { token : token }})
 }
