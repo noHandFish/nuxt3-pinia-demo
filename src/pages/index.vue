@@ -65,6 +65,7 @@ import { User1Icon, LockOnIcon, UserSafetyIcon } from 'tdesign-icons-vue-next'
 import useUserStore from "../stores/useUserStore"
 import { reactive } from "vue";
 import {MessagePlugin} from "tdesign-vue-next";
+
 const useStore = useUserStore()
 const userData = reactive({
   phoneNumber: '',
@@ -119,8 +120,8 @@ const trueCheckCode = ref<string>('')
 const checkCode = ref<string>('')
 
 function getCheckCode() {
-  trueCheckCode.value = Math.floor(Math.random() * 1000000).toString()
-  console.log(Math.floor(Math.random() * 1000000))
+  // trueCheckCode.value = Math.floor(Math.random() * 1000000).toString()
+  trueCheckCode.value = '123456'
 }
 
 //选择头像
@@ -135,6 +136,7 @@ function register() {
     return
   if(!isSame.value)
     return
+  console.log(trueCheckCode.value, checkCode.value)
   if (trueCheckCode.value !== checkCode.value) {
     MessagePlugin.error('验证码不正确，请重试！')
     return

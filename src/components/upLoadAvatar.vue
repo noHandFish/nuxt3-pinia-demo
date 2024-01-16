@@ -1,10 +1,10 @@
 <template>
   <div>
     <input ref="upLoadImg" type="file" @change="handleSelectFile" class="hidden">
-    <div @click="$refs.upLoadImg.click()"
+    <div @click="$refs?.upLoadImg?.click()"
          class="w-24 h-24 rounded-full bg-gray-200 flex-center"
          v-if="isAvatarEmpty">+</div>
-    <t-image :src="userImage" alt="Avatar" class="w-24 h-24 hover: cursor" shape="circle" fit="cover" @click="$refs.upLoadImg.click()" v-else/>
+    <t-image :src="userImage" alt="Avatar" class="w-24 h-24 hover: cursor" shape="circle" fit="cover" @click="$refs?.upLoadImg?.click()" v-else/>
   </div>
 </template>
 
@@ -34,7 +34,6 @@ function readImageAsDataURL(file : any, successCallback: any, errorCallback : an
 
   reader.onloadend = () => {
     if (typeof reader.result === 'string') {
-      console.log('live')
       successCallback(reader.result);
     } else {
       errorCallback(new Error('Failed to read the file as Data URL'));

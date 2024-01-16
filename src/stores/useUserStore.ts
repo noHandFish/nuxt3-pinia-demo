@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-const adminList = ['8LMyKbMGqk', '9cCWNOioLh']
+const adminList = ['17748523627', '17309640952']
 const useUserStore = defineStore('user', {
     state: () => ({
         userName: '',
@@ -10,7 +10,7 @@ const useUserStore = defineStore('user', {
     }),
     getters: {
         isAdmin(state) {
-            return adminList.includes(state.token)
+            return adminList.includes(state.phoneNumber)
         },
     },
     actions: {

@@ -1,12 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  srcDir: 'src/',
-  modules: [
-      '@pinia/nuxt',
-      '@nuxtjs/tailwindcss',
-      'tdesign-vue-next/es/nuxt',
-  ],
+    devtools: { enabled: true },
+    srcDir: 'src/',
+    modules: [
+        '@pinia/nuxt',
+        '@nuxtjs/tailwindcss',
+        'tdesign-vue-next/es/nuxt',
+    ],
+    ssr: false,
     build: {
         transpile: ['tdesign-vue-next'],
     },
